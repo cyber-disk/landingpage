@@ -65,7 +65,7 @@ canvas{
     100%{clip-path:inset(85% 0 0 0)}
 }
 
-/* ===== MULTI PAGE 3D BOOK ===== */
+/* ===== 3D BOOK ===== */
 .scene{
     perspective:1600px;
     margin:60px 0;
@@ -76,6 +76,7 @@ canvas{
     height:300px;
     position:relative;
     transform-style:preserve-3d;
+    cursor:pointer;
 }
 
 .page{
@@ -112,12 +113,12 @@ canvas{
     color:#22d3ee;
 }
 
-/* HOVER FLIP SEQUENCE */
-.book:hover .cover{transform:rotateY(-160deg);}
-.book:hover .p1{transform:rotateY(-150deg);}
-.book:hover .p2{transform:rotateY(-140deg);}
-.book:hover .p3{transform:rotateY(-130deg);}
-.book:hover .p4{transform:rotateY(-120deg);}
+/* CLICK OPEN STATE */
+.book.open .cover{transform:rotateY(-160deg);}
+.book.open .p1{transform:rotateY(-150deg);}
+.book.open .p2{transform:rotateY(-140deg);}
+.book.open .p3{transform:rotateY(-130deg);}
+.book.open .p4{transform:rotateY(-120deg);}
 
 /* BUTTON */
 .btn{
@@ -190,9 +191,8 @@ canvas{
 <section class="hero">
     <h1 class="glitch" data-text="AI POWERED eBOOK">AI POWERED eBOOK</h1>
 
-    <!-- MULTI PAGE BOOK -->
     <div class="scene">
-        <div class="book">
+        <div class="book" id="book">
             <div class="page cover"></div>
             <div class="page p1"></div>
             <div class="page p2"></div>
@@ -253,7 +253,21 @@ setInterval(()=>{
     });
 },33);
 
-/* PARALLAX */
+/* BOOK CLICK + OUTSIDE CLOSE */
+const book = document.getElementById("book");
+
+book.addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent outside click
+    book.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+    if (!book.contains(e.target)) {
+        book.classList.remove("open");
+    }
+});
+
+/* CARD PARALLAX */
 document.querySelectorAll(".card").forEach(card=>{
     card.addEventListener("mousemove",e=>{
         const r=card.getBoundingClientRect();
