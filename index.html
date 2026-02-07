@@ -1,145 +1,271 @@
-
 <!DOCTYPE html>
-<html lang="gu">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Gujarati eBook Landing Page</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7fa;
-            color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Cyber eBook</title>
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 
-        .hero {
-            background: linear-gradient(135deg, #4f46e5, #6366f1);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-            border-radius: 12px;
-        }
+<style>
+body{
+    margin:0;
+    font-family:'Orbitron',sans-serif;
+    background:black;
+    color:#e5e7eb;
+    overflow-x:hidden;
+}
 
-        .hero h1 {
-            font-size: 36px;
-            margin-bottom: 15px;
-        }
+/* MATRIX */
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+}
 
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
+/* HERO */
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
 
-        .btn {
-            display: inline-block;
-            background: #22c55e;
-            color: white;
-            padding: 14px 28px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: bold;
-        }
+/* GLITCH TITLE */
+.glitch{
+    position:relative;
+    font-size:clamp(32px,6vw,56px);
+    color:#22d3ee;
+}
+.glitch::before,
+.glitch::after{
+    content:attr(data-text);
+    position:absolute;
+    inset:0;
+}
+.glitch::before{
+    color:#38bdf8;
+    animation:glitch1 2s infinite;
+}
+.glitch::after{
+    color:#22d3ee;
+    animation:glitch2 1.5s infinite;
+}
+@keyframes glitch1{
+    0%{clip-path:inset(0 0 85% 0)}
+    50%{clip-path:inset(30% 0 30% 0)}
+    100%{clip-path:inset(0 0 85% 0)}
+}
+@keyframes glitch2{
+    0%{clip-path:inset(85% 0 0 0)}
+    50%{clip-path:inset(40% 0 20% 0)}
+    100%{clip-path:inset(85% 0 0 0)}
+}
 
-        .section {
-            margin-top: 50px;
-        }
+/* ===== MULTI PAGE 3D BOOK ===== */
+.scene{
+    perspective:1600px;
+    margin:60px 0;
+}
 
-        .section h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.book{
+    width:220px;
+    height:300px;
+    position:relative;
+    transform-style:preserve-3d;
+}
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+.page{
+    position:absolute;
+    inset:0;
+    background:#020617;
+    border-radius:8px;
+    transform-origin:left;
+    transform-style:preserve-3d;
+    transition:transform 1s ease;
+    box-shadow:0 20px 50px #22d3ee33;
+}
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            text-align: center;
-        }
+/* COVER */
+.page.cover{
+    background:url("ebook-cover.jpg") center/cover;
+    z-index:5;
+}
 
-        .price {
-            background: #fff;
-            text-align: center;
-            padding: 40px;
-            border-radius: 12px;
-        }
+/* INNER PAGES */
+.page.p1{z-index:4;}
+.page.p2{z-index:3;}
+.page.p3{z-index:2;}
+.page.p4{z-index:1;}
 
-        .price h3 {
-            font-size: 32px;
-            color: #4f46e5;
-        }
+.page::after{
+    content:"AI • AUTOMATION • FUTURE";
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    color:#22d3ee;
+}
 
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            font-size: 14px;
-            color: #777;
-        }
-    </style>
+/* HOVER FLIP SEQUENCE */
+.book:hover .cover{transform:rotateY(-160deg);}
+.book:hover .p1{transform:rotateY(-150deg);}
+.book:hover .p2{transform:rotateY(-140deg);}
+.book:hover .p3{transform:rotateY(-130deg);}
+.book:hover .p4{transform:rotateY(-120deg);}
+
+/* BUTTON */
+.btn{
+    margin-top:30px;
+    padding:16px 42px;
+    background:#22d3ee;
+    color:black;
+    border-radius:50px;
+    text-decoration:none;
+    box-shadow:0 0 40px #22d3ee;
+    position:relative;
+    overflow:hidden;
+}
+.btn::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:#38bdf8;
+    opacity:0;
+}
+.btn:hover::before{
+    opacity:.4;
+    animation:btnGlitch .3s infinite;
+}
+@keyframes btnGlitch{
+    0%{clip-path:inset(0 0 80% 0)}
+    50%{clip-path:inset(40% 0 20% 0)}
+    100%{clip-path:inset(80% 0 0 0)}
+}
+
+/* FEATURES */
+.section{padding:100px 20px;}
+.grid{
+    max-width:1100px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:30px;
+}
+.card{
+    background:rgba(2,6,23,.9);
+    border:1px solid #22d3ee44;
+    padding:35px;
+    border-radius:18px;
+    text-align:center;
+    transform-style:preserve-3d;
+    transition:.15s;
+    box-shadow:0 0 30px #22d3ee22;
+}
+
+/* PRICE */
+.price{
+    font-size:48px;
+    color:#22d3ee;
+}
+
+/* FOOTER */
+.footer{
+    padding:40px;
+    text-align:center;
+    color:#64748b;
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
+<canvas id="matrix"></canvas>
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1>એક eBook જે તમારી લાઈફ બદલી શકે</h1>
-        <p>સરળ ભાષામાં, પ્રેક્ટિકલ માર્ગદર્શન અને રિયલ ઉદાહરણો સાથે</p>
-        <a href="#" class="btn">હમણાં જ eBook ડાઉનલોડ કરો</a>
-    </div>
+<section class="hero">
+    <h1 class="glitch" data-text="AI POWERED eBOOK">AI POWERED eBOOK</h1>
 
-    <!-- Who is this for -->
-    <div class="section">
-        <h2>આ eBook કોના માટે છે?</h2>
-        <div class="features">
-            <div class="card">વિદ્યાર્થીઓ માટે</div>
-            <div class="card">ફ્રીલાન્સર્સ માટે</div>
-            <div class="card">નવા બિઝનેસ શરૂ કરનાર માટે</div>
-            <div class="card">સ્કિલ અપગ્રેડ કરવા માંગનાર માટે</div>
+    <!-- MULTI PAGE BOOK -->
+    <div class="scene">
+        <div class="book">
+            <div class="page cover"></div>
+            <div class="page p1"></div>
+            <div class="page p2"></div>
+            <div class="page p3"></div>
+            <div class="page p4"></div>
         </div>
     </div>
 
-    <!-- What you get -->
-    <div class="section">
-        <h2>eBook માં શું મળશે?</h2>
-        <div class="features">
-            <div class="card">સ્ટેપ-બાય-સ્ટેપ ગાઈડ</div>
-            <div class="card">પ્રેક્ટિકલ ટિપ્સ</div>
-            <div class="card">રિયલ-લાઈફ ઉદાહરણો</div>
-            <div class="card">બોનસ રિસોર્સ</div>
-        </div>
-    </div>
+    <p style="max-width:650px;color:#94a3b8;">
+        A futuristic eBook for AI mindset, automation skills  
+        and future-ready digital growth.
+    </p>
 
-    <!-- Pricing -->
-    <div class="section">
-        <h2>કિંમત</h2>
-        <div class="price">
-            <p>આજની ખાસ ઓફર</p>
-            <h3>₹299</h3>
-            <p>❌ મૂળ કિંમત ₹799</p>
-            <a href="#" class="btn">હમણાં જ ખરીદો</a>
-        </div>
-    </div>
+    <a href="#" class="btn">DOWNLOAD eBOOK</a>
+</section>
 
-    <!-- Footer -->
-    <div class="footer">
-        © 2026 Gujarati eBook | All Rights Reserved
+<section class="section">
+    <div class="grid">
+        <div class="card">🤖 AI Mindset</div>
+        <div class="card">⚡ Automation Skills</div>
+        <div class="card">🧬 Future Knowledge</div>
+        <div class="card">🚀 Digital Growth</div>
     </div>
+</section>
 
+<section class="section" style="text-align:center;">
+    <p>LIMITED ACCESS</p>
+    <div class="price">₹299</div>
+    <p><del>₹999</del></p>
+    <a href="#" class="btn">GET INSTANT ACCESS</a>
+</section>
+
+<div class="footer">
+    © 2026 AI Cyber eBook • Future Starts Now
 </div>
+
+<script>
+/* MATRIX */
+const c=document.getElementById("matrix");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+const chars="01AI█▓▒░";
+const size=16;
+const cols=c.width/size;
+const drops=Array(Math.floor(cols)).fill(1);
+
+setInterval(()=>{
+    ctx.fillStyle="rgba(0,0,0,.05)";
+    ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle="#22d3ee";
+    ctx.font=size+"px monospace";
+    drops.forEach((y,i)=>{
+        const t=chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(t,i*size,y*size);
+        drops[i]=y*size>c.height&&Math.random()>0.975?0:y+1;
+    });
+},33);
+
+/* PARALLAX */
+document.querySelectorAll(".card").forEach(card=>{
+    card.addEventListener("mousemove",e=>{
+        const r=card.getBoundingClientRect();
+        card.style.transform=
+        `rotateX(${(e.offsetY/r.height-.5)*20}deg)
+         rotateY(${(e.offsetX/r.width-.5)*-20}deg)`;
+    });
+    card.addEventListener("mouseleave",()=>{
+        card.style.transform="rotateX(0) rotateY(0)";
+    });
+});
+</script>
 
 </body>
 </html>
